@@ -4,11 +4,16 @@ using UnityEngine.UIElements;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public SpriteRenderer spriteRenderer;
 
     [Header("Gravity")]
     public float gravity = 3f;
 
+    [Header("Click Delay")]
+    public float clickDelay = 0.1f;
+
     private bool onTop = false;
+    private float nextClickTime = 0f;
 
     void Start()
     {
@@ -17,9 +22,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextClickTime)
         {
             SwitchSide();
+
+            nextClickTime = Time.time + clickDelay;
         }
     }
 
@@ -40,7 +47,7 @@ public class Player : MonoBehaviour
             // Gravity ปกติ
             rb.gravityScale = gravity;
         }
-
+         spriteRenderer.flipY = onTop;
         transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 

@@ -1,5 +1,5 @@
-
 using UnityEngine;
+
 
 public class MoveLeft : MonoBehaviour
 {
@@ -18,17 +18,47 @@ public class MoveLeft : MonoBehaviour
             rb.position + Vector2.left * speed * Time.fixedDeltaTime
         );
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Player player =
-            other.GetComponent<Player>();
+        Player player = other.GetComponent<Player>();
 
-        if (player != null)
+        if (player == null)
+            return;
+
+        Item item = GetComponent<Item>();
+
+        if (item == null || item.itemData == null)
         {
-            Debug.Log("จับ Item ได้!");
+            Destroy(gameObject);
+            return;
+        }
+
+        RecipeManager recipeManager =
+            FindFirstObjectByType<RecipeManager>();
+
+        if (recipeManager == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // อาวุธ / ของอันตราย
+        if (item.itemData.itemType == ItemType.Hazard)
+        {
+            Debug.Log("โดนของอันตราย: " + item.itemData.itemName);
+
+            /*player.TakeDamage(1);*/
 
             Destroy(gameObject);
+
+            return;
         }
+
+        // วัตถุดิบ
+        recipeManager.CollectItem(item.itemData);
+
+        // Item หายเมื่อชน Player
+        Destroy(gameObject);
     }
 }
-
