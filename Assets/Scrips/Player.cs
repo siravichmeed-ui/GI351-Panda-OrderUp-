@@ -5,8 +5,8 @@ public class Player : MonoBehaviour
 {
     public Rigidbody2D rb;
 
+    [Header("Gravity")]
     public float gravity = 3f;
-    public float switchForce = 15f;
 
     private bool onTop = false;
 
@@ -32,17 +32,21 @@ public class Player : MonoBehaviour
 
         if (onTop)
         {
-            // ดึงขึ้นไปหาพื้นด้านบน
+            // Gravity กลับด้าน
             rb.gravityScale = -gravity;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-
         }
         else
         {
-            // ดึงลงไปหาพื้นด้านล่าง
+            // Gravity ปกติ
             rb.gravityScale = gravity;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    public bool IsOnTop()
+    {
+        return onTop;
     }
 
 

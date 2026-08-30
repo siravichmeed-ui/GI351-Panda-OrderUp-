@@ -1388,7 +1388,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &1862670792
 MonoBehaviour:
@@ -1404,7 +1404,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   rb: {fileID: 1862670791}
   gravity: 3
-  switchForce: 15
 --- !u!1 &1938574563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,8 +1496,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSpawner
   spawnObjects:
-  - {fileID: 2535974552727085103, guid: 5cd04707543531a4183ea7f5a7c07d2c, type: 3}
-  - {fileID: 1775931462169206585, guid: 03f6387b751dbc8489d841246c386672, type: 3}
+  - {fileID: 1848607922238803787, guid: 79e770e2cb3971849ac63052e2f6f46a, type: 3}
+  - {fileID: 7310209657982887884, guid: 1bcf2ff5c4dddb04f80f0ef5addc0fc2, type: 3}
+  - {fileID: 7443064528861440666, guid: 0f7376c50ffae944a8b5741471b672db, type: 3}
+  - {fileID: 38398408405950690, guid: 61f3af51adfa04543a63ecdea76f90d2, type: 3}
+  - {fileID: 6175963829155508061, guid: ea263707932ed2542be14a96e75d34d6, type: 3}
+  - {fileID: 27108483205522000, guid: ceb05387bf16bf24d9de531c84261f16, type: 3}
+  - {fileID: 2923074471044824020, guid: 98aec81855eb8c245b848a8f5689ec7f, type: 3}
+  - {fileID: 2746219348024619334, guid: 40053773702dc57439ccde4e76debe5a, type: 3}
+  - {fileID: 2052652246032851231, guid: b995c82f7bf38ed40a5af9a49b83c3e4, type: 3}
+  - {fileID: 7271582265554002649, guid: 039e65c27f1ddb541a0e11f2f7da6261, type: 3}
+  - {fileID: 7077804668101648889, guid: 7b3c9410d86aa4b44b33076725648794, type: 3}
+  - {fileID: 7461549272099584590, guid: 00ca5e414848be7489cbc2ffefed090a, type: 3}
+  - {fileID: 4581822124134355578, guid: 3bb593281aecfe74199016b7c19da5a3, type: 3}
+  - {fileID: 4548899715243006384, guid: 1f0522247bf94224fa4d894d2af10758, type: 3}
   spawnPoints:
   - {fileID: 2042836299}
   - {fileID: 1483936631}
