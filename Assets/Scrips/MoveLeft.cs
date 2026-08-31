@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class MoveLeft : MonoBehaviour
 {
+    [Header("การเคลื่อนที่")]
     public float speed = 5f;
+
+    [Header("การหมุน")]
+    public float rotationSpeed = 30f;
 
     private Rigidbody2D rb;
 
@@ -14,9 +18,13 @@ public class MoveLeft : MonoBehaviour
 
     void FixedUpdate()
     {
+        // เคลื่อนที่ไปทางซ้าย
         rb.MovePosition(
             rb.position + Vector2.left * speed * Time.fixedDeltaTime
         );
+
+        // หมุนช้า ๆ
+        transform.Rotate(0f, 0f, rotationSpeed * Time.fixedDeltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -43,7 +51,7 @@ public class MoveLeft : MonoBehaviour
             return;
         }
 
-        // อาวุธ / ของอันตราย
+        // ของอันตราย
         if (item.itemData.itemType == ItemType.Hazard)
         {
             Debug.Log("โดนของอันตราย: " + item.itemData.itemName);
@@ -51,14 +59,12 @@ public class MoveLeft : MonoBehaviour
             /*player.TakeDamage(1);*/
 
             Destroy(gameObject);
-
             return;
         }
 
         // วัตถุดิบ
         recipeManager.CollectItem(item.itemData);
 
-        // Item หายเมื่อชน Player
         Destroy(gameObject);
     }
 }

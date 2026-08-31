@@ -11,7 +11,7 @@ public class RecipeManager : MonoBehaviour
 
     private List<ItemData> collectedItems = new List<ItemData>();
 
-    void Start()
+    void Awake()
     {
         SelectRandomRecipe();
     }

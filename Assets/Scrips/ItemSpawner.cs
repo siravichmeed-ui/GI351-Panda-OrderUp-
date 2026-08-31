@@ -8,6 +8,9 @@ public class ItemSpawner : MonoBehaviour
     [Header("จุด Spawn")]
     public Transform[] spawnPoints;
 
+    [Header("Warning")]
+    public WarningManager warningManager;
+
     [Header("ช่วงเริ่มต้น")]
     public float earlySpawnInterval = 2.5f;
 
@@ -40,19 +43,16 @@ public class ItemSpawner : MonoBehaviour
 
     float GetSpawnInterval()
     {
-        // 0 - 10 วินาที
         if (gameTime < earlyTime)
         {
             return earlySpawnInterval;
         }
 
-        // 10 - 20 วินาที
         if (gameTime < midTime)
         {
             return midSpawnInterval;
         }
 
-        // 20+ วินาที
         return overloadSpawnInterval;
     }
 
@@ -64,13 +64,29 @@ public class ItemSpawner : MonoBehaviour
         int objectIndex = Random.Range(0, spawnObjects.Length);
         int pointIndex = Random.Range(0, spawnPoints.Length);
 
+        GameObject objectToSpawn = spawnObjects[objectIndex];
+
         Transform point = spawnPoints[pointIndex];
 
         Instantiate(
-            spawnObjects[objectIndex],
+            objectToSpawn,
             point.position,
             point.rotation
         );
+
+        // เช็กว่า Item ที่กำลัง Spawn เป็น Hazard หรือไม่
+        Item item = objectToSpawn.GetComponent<Item>();
+
+        if (item != null && item.itemData != null)
+        {
+            if (item.itemData.itemType == ItemType.Hazard)
+            {
+                if (warningManager != null)
+                {
+                    warningManager.ShowWarning(point);
+                }
+            }
+        }
     }
 }
 

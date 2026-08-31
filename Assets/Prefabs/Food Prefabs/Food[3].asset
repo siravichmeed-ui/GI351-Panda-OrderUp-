@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37eb0cffbfdd2574583556438f811a4c, type: 3}
+  m_Name: 'Food[3]'
+  m_EditorClassIdentifier: Assembly-CSharp::RecipeData
+  recipeName: HotPot
+  recipeIcon: {fileID: -4135920974577956680, guid: f99ca1ada57e3f54184b135e4461f218, type: 3}
+  requiredItems:
+  - {fileID: 11400000, guid: 63c05a120aaf16142b53e2d67c419f26, type: 2}
+  - {fileID: 11400000, guid: 390f5559be62e3c4dae94810eedc4a50, type: 2}
+  - {fileID: 11400000, guid: 6e3eee6e2d70d164d966269eaa53b804, type: 2}
