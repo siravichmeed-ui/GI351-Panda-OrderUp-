@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -9,7 +10,13 @@ public class RecipeManager : MonoBehaviour
     [Header("เมนูปัจจุบัน")]
     public RecipeData currentRecipe;
 
-    private List<ItemData> collectedItems = new List<ItemData>();
+    [Header("ตั้งค่า")]
+    public float nextRecipeDelay = 1f;
+
+    private Dictionary<ItemData, int> collectedItems =
+        new Dictionary<ItemData, int>();
+
+    private bool recipeCompleted = false;
 
     void Awake()
     {
@@ -30,11 +37,21 @@ public class RecipeManager : MonoBehaviour
 
         collectedItems.Clear();
 
-        Debug.Log("เมนูที่ต้องทำ: " + currentRecipe.recipeName);
+        recipeCompleted = false;
 
-        foreach (ItemData item in currentRecipe.requiredItems)
+        Debug.Log("เมนูใหม่: " + currentRecipe.recipeName);
+
+        foreach (RecipeIngredient ingredient in currentRecipe.requiredItems)
         {
-            Debug.Log("ต้องเก็บ: " + item.itemName);
+            if (ingredient == null || ingredient.item == null)
+                continue;
+
+            Debug.Log(
+                "ต้องใช้: " +
+                ingredient.item.itemName +
+                " x" +
+                ingredient.amount
+            );
         }
     }
 
@@ -43,67 +60,155 @@ public class RecipeManager : MonoBehaviour
         if (item == null)
             return false;
 
-        // ของอันตราย
+        // ถ้ากำลังรอเมนูใหม่
+        if (recipeCompleted)
+            return false;
+
+        // Hazard
         if (item.itemType == ItemType.Hazard)
+        {
+            Debug.Log("เป็นของอันตราย: " + item.itemName);
+            return false;
+        }
+
+        // ต้องเป็น Ingredient
+        if (item.itemType != ItemType.Ingredient)
         {
             return false;
         }
 
-        // วัตถุดิบ
-        if (item.itemType == ItemType.Ingredient)
+        // เช็กว่า Item อยู่ในสูตรหรือไม่
+        RecipeIngredient requiredIngredient =
+            GetRequiredIngredient(item);
+
+        if (requiredIngredient == null)
         {
-            // เช็กว่าอยู่ในสูตรปัจจุบันหรือไม่
-            if (IsRequiredItem(item))
-            {
-                if (!collectedItems.Contains(item))
-                {
-                    collectedItems.Add(item);
-
-                    Debug.Log("เก็บ: " + item.itemName);
-
-                    CheckComplete();
-                }
-            }
-            else
-            {
-                // เป็นวัตถุดิบ แต่ไม่ใช้ในเมนูนี้
-                Debug.Log("ไม่ต้องใช้: " + item.itemName);
-            }
-
-            return true;
+            Debug.Log("ไม่ต้องใช้: " + item.itemName);
+            return false;
         }
+
+        // จำนวนที่เก็บแล้ว
+        int currentAmount = GetCollectedAmount(item);
+
+        // เก็บครบแล้ว
+        if (currentAmount >= requiredIngredient.amount)
+        {
+            Debug.Log(
+                item.itemName +
+                " ครบแล้ว (" +
+                currentAmount +
+                "/" +
+                requiredIngredient.amount +
+                ")"
+            );
+
+            return false;
+        }
+
+        // เพิ่มจำนวน
+        collectedItems[item] = currentAmount + 1;
+
+        Debug.Log(
+            "เก็บ " +
+            item.itemName +
+            " (" +
+            collectedItems[item] +
+            "/" +
+            requiredIngredient.amount +
+            ")"
+        );
+
+        // เช็กว่าครบสูตรหรือยัง
+        CheckComplete();
 
         return true;
     }
 
-    bool IsRequiredItem(ItemData item)
+    RecipeIngredient GetRequiredIngredient(ItemData item)
     {
         if (currentRecipe == null)
-            return false;
+            return null;
 
-        foreach (ItemData requiredItem in currentRecipe.requiredItems)
+        if (currentRecipe.requiredItems == null)
+            return null;
+
+        foreach (RecipeIngredient ingredient in currentRecipe.requiredItems)
         {
-            if (requiredItem == item)
+            if (ingredient == null)
+                continue;
+
+            if (ingredient.item == item)
             {
-                return true;
+                return ingredient;
             }
         }
 
-        return false;
+        return null;
+    }
+
+    public bool IsRequiredItem(ItemData item)
+    {
+        return GetRequiredIngredient(item) != null;
+    }
+
+    public int GetCollectedAmount(ItemData item)
+    {
+        if (item == null)
+            return 0;
+
+        if (collectedItems.TryGetValue(item, out int amount))
+        {
+            return amount;
+        }
+
+        return 0;
+    }
+
+    public int GetRequiredAmount(ItemData item)
+    {
+        RecipeIngredient ingredient =
+            GetRequiredIngredient(item);
+
+        if (ingredient == null)
+            return 0;
+
+        return ingredient.amount;
     }
 
     void CheckComplete()
     {
-        if (collectedItems.Count >= currentRecipe.requiredItems.Length)
-        {
-            Debug.Log("เก็บวัตถุดิบครบ!");
-            Debug.Log("ทำ " + currentRecipe.recipeName + " สำเร็จ!");
-        }
-    }
+        if (currentRecipe == null)
+            return;
 
-    public List<ItemData> GetCollectedItems()
-    {
-        return collectedItems;
+        if (currentRecipe.requiredItems == null)
+            return;
+
+        // เช็กทุกวัตถุดิบ
+        foreach (RecipeIngredient ingredient in currentRecipe.requiredItems)
+        {
+            if (ingredient == null || ingredient.item == null)
+                continue;
+
+            int collectedAmount =
+                GetCollectedAmount(ingredient.item);
+
+            if (collectedAmount < ingredient.amount)
+            {
+                return;
+            }
+        }
+
+        // ทำสำเร็จแล้ว
+        recipeCompleted = true;
+
+        Debug.Log(
+            "ทำ " +
+            currentRecipe.recipeName +
+            " สำเร็จ!"
+        );
+
+        // รอแล้วสุ่มเมนูใหม่
+        Invoke(nameof(SelectRandomRecipe), nextRecipeDelay);
     }
 
     public RecipeData GetCurrentRecipe()
@@ -111,3 +216,4 @@ public class RecipeManager : MonoBehaviour
         return currentRecipe;
     }
 }
+

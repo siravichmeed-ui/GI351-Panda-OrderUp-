@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43b03372aeedfe54d884bce3d8080fb6, type: 3}
-  m_Name: 5
+  m_Name: Powder
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: 5
-  icon: {fileID: 5448180315850719154, guid: 7c46d63a9270e1949bc852cb3eaa7594, type: 3}
+  itemName: Powder
+  icon: {fileID: -6590696310435784273, guid: d6d12627246ce2842a2b94354e816178, type: 3}
   itemType: 0

@@ -10,10 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37eb0cffbfdd2574583556438f811a4c, type: 3}
-  m_Name: 'Food[1]'
+  m_Name: Geaw
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
-  recipeName: HotPot
-  recipeIcon: {fileID: -4135920974577956680, guid: f99ca1ada57e3f54184b135e4461f218, type: 3}
+  recipeName: Geaw
+  recipeIcon: {fileID: -8441566627323160104, guid: 33dca47e221f9a14fbd71511142c0502, type: 3}
   requiredItems:
-  - {fileID: 11400000, guid: 39b5845752e73384ead65ac0b393979e, type: 2}
-  - {fileID: 11400000, guid: 390f5559be62e3c4dae94810eedc4a50, type: 2}
+  - item: {fileID: 11400000, guid: 39b5845752e73384ead65ac0b393979e, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 390f5559be62e3c4dae94810eedc4a50, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 6e3eee6e2d70d164d966269eaa53b804, type: 2}
+    amount: 1

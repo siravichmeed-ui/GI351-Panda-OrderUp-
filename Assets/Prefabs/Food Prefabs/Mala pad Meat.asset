@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37eb0cffbfdd2574583556438f811a4c, type: 3}
+  m_Name: Mala pad Meat
+  m_EditorClassIdentifier: Assembly-CSharp::RecipeData
+  recipeName: Mala pad Meat
+  recipeIcon: {fileID: 7462357171129780843, guid: 3bb0540d481a210469c177315a1f6695, type: 3}
+  requiredItems:
+  - item: {fileID: 11400000, guid: 1eb9ddc716a02f245abfebd178801aa8, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 71eb327b49dfb1148806ac69a03dd988, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 390f5559be62e3c4dae94810eedc4a50, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 6e3eee6e2d70d164d966269eaa53b804, type: 2}
+    amount: 1

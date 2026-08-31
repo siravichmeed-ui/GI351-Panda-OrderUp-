@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8416328536552665299}
   - component: {fileID: 2156940933772375750}
   m_Layer: 0
-  m_Name: 'Food[6]'
+  m_Name: Mala Hot Pot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

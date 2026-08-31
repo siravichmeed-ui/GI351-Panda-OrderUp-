@@ -1,5 +1,12 @@
 using UnityEngine;
 
+[System.Serializable]
+public class RecipeIngredient
+{
+    public ItemData item;
+    public int amount;
+}
+
 [CreateAssetMenu(fileName = "NewRecipe", menuName = "Recipe/Recipe Data")]
 public class RecipeData : ScriptableObject
 {
@@ -10,5 +17,5 @@ public class RecipeData : ScriptableObject
     public Sprite recipeIcon;
 
     [Header("วัตถุดิบที่ต้องใช้")]
-    public ItemData[] requiredItems;
+    public RecipeIngredient[] requiredItems;
 }
