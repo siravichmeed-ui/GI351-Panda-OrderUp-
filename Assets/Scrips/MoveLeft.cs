@@ -16,16 +16,25 @@ public class MoveLeft : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
-    {
-        // เคลื่อนที่ไปทางซ้าย
-        rb.MovePosition(
-            rb.position + Vector2.left * speed * Time.fixedDeltaTime
-        );
+void FixedUpdate()
+{
+    float currentSpeed = speed;
 
-        // หมุนช้า ๆ
-        transform.Rotate(0f, 0f, rotationSpeed * Time.fixedDeltaTime);
+    if (GameSpeedManager.Instance != null)
+    {
+        currentSpeed = GameSpeedManager.Instance.GetSpeed(speed);
     }
+
+    rb.MovePosition(
+        rb.position + Vector2.left * currentSpeed * Time.fixedDeltaTime
+    );
+
+    transform.Rotate(
+        0f,
+        0f,
+        rotationSpeed * Time.fixedDeltaTime
+    );
+}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
