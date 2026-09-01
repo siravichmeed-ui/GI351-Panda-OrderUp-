@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: c237ae989568bfe46bc463c49be3aaaf
+guid: 8d020a6dbb211994a89ef67c294beaef
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1253857894679777507
-    second: New_Piskel-44_0
+      213: 3688079056042777821
+    second: IMG_8691_0
+  - first:
+      213: 7461902207781678170
+    second: IMG_8691_1
+  - first:
+      213: -4378379774330301960
+    second: IMG_8691_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: New_Piskel-44_0
+      name: IMG_8691_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 6
-        width: 49
-        height: 57
+        x: 1067
+        y: 607
+        width: 25
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e0153bac19966110800000000000000
-      internalID: 1253857894679777507
+      spriteID: ddcdcf67c50be2330800000000000000
+      internalID: 3688079056042777821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IMG_8691_1
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 420
+        width: 713
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5ca78be5800e8760800000000000000
+      internalID: 7461902207781678170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IMG_8691_2
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 428
+        width: 33
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f1994bfacedc33c0800000000000000
+      internalID: -4378379774330301960
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      New_Piskel-44_0: 1253857894679777507
+      IMG_8691_0: 3688079056042777821
+      IMG_8691_1: 7461902207781678170
+      IMG_8691_2: -4378379774330301960
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -109,6 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveLeft
   speed: 5
+  rotationSpeed: 30
+  pickupSound: {fileID: 8300000, guid: f14516e2116ad4543b0eac62cda8a62d, type: 3}
 --- !u!50 &8349918877016146078
 Rigidbody2D:
   serializedVersion: 5

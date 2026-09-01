@@ -6,13 +6,14 @@ public class Scene : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
-    public void RetryGame()
+    public void Retry()
     {
-        SceneManager.LoadScene(1);
-
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void MainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }

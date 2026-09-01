@@ -8,6 +8,9 @@ public class MoveLeft : MonoBehaviour
     [Header("การหมุน")]
     public float rotationSpeed = 30f;
 
+    [Header("เสียง")]
+    public AudioClip pickupSound;
+
     private Rigidbody2D rb;
 
     // =========================
@@ -122,11 +125,17 @@ public class MoveLeft : MonoBehaviour
         // INGREDIENT
         // =========================
 
-        if (
-            itemData.itemType ==
-            ItemType.Ingredient
-        )
-        {
+        if (itemData.itemType == ItemType.Ingredient)
+        {   // เล่นเสียงทันทีที่เก็บ
+            if (pickupSound != null)
+            {
+                AudioSource.PlayClipAtPoint(
+                    pickupSound,
+                    transform.position,
+                    1f
+                );
+            }
+        
             HandleIngredient(itemData);
 
             Destroy(gameObject);
@@ -241,6 +250,7 @@ public class MoveLeft : MonoBehaviour
                 "เก็บวัตถุดิบ: " +
                 itemData.itemName
             );
+            
         }
     }
 }

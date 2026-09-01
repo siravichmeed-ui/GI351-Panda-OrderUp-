@@ -12,6 +12,11 @@ public class Player : MonoBehaviour
     [Header("Click Delay")]
     public float clickDelay = 0.1f;
 
+    [Header("Click Sound")]
+    public AudioClip switchSound;
+    [Range(0f, 1f)]
+    public float switchVolume = 1f;
+
     private bool onTop = false;
     private float nextClickTime = 0f;
 
@@ -25,6 +30,16 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.time >= nextClickTime)
         {
             SwitchSide();
+
+            // เล่นเสียงตอนสลับฝั่ง
+            if (switchSound != null)
+            {
+                AudioSource.PlayClipAtPoint(
+                    switchSound,
+                    transform.position,
+                    switchVolume
+                );
+            }
 
             nextClickTime = Time.time + clickDelay;
         }

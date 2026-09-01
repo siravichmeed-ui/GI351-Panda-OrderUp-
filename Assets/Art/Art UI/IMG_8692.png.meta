@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: c237ae989568bfe46bc463c49be3aaaf
+guid: 17dae7e2d988ee74d90cf10f548388b3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1253857894679777507
-    second: New_Piskel-44_0
+      213: -7030134668132883792
+    second: IMG_8692_0
+  - first:
+      213: 7466209515224247017
+    second: IMG_8692_1
+  - first:
+      213: 6437763244744980468
+    second: IMG_8692_2
+  - first:
+      213: 1790888075134347676
+    second: IMG_8692_3
+  - first:
+      213: -8834100325648938191
+    second: IMG_8692_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +112,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: New_Piskel-44_0
+      name: IMG_8692_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 6
-        width: 49
-        height: 57
+        x: 756
+        y: 602
+        width: 15
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +127,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e0153bac19966110800000000000000
-      internalID: 1253857894679777507
+      spriteID: 0b2e7ce34c1ff6e90800000000000000
+      internalID: -7030134668132883792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IMG_8692_1
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 431
+        width: 385
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ea25951ffd4d9760800000000000000
+      internalID: 7466209515224247017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IMG_8692_2
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 511
+        width: 11
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f73717ff87875950800000000000000
+      internalID: 6437763244744980468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IMG_8692_3
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 483
+        width: 8
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c99adde37338ad810800000000000000
+      internalID: 1790888075134347676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IMG_8692_4
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 419
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13b48831f88f66580800000000000000
+      internalID: -8834100325648938191
       vertices: []
       indices: 
       edges: []
@@ -135,7 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      New_Piskel-44_0: 1253857894679777507
+      IMG_8692_0: -7030134668132883792
+      IMG_8692_1: 7466209515224247017
+      IMG_8692_2: 6437763244744980468
+      IMG_8692_3: 1790888075134347676
+      IMG_8692_4: -8834100325648938191
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

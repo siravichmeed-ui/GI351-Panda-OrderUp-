@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour
             return;
 
         scoreText.text =
-            gameManager.GetScore().ToString();
+             ": " + gameManager.GetScore().ToString();
     }
 
     void UpdateTime()
