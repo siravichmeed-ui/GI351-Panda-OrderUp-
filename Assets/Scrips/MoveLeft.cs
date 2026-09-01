@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class MoveLeft : MonoBehaviour
 {
     [Header("การเคลื่อนที่")]
@@ -11,69 +10,237 @@ public class MoveLeft : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    // =========================
+    // START
+    // =========================
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-void FixedUpdate()
-{
-    float currentSpeed = speed;
+    // =========================
+    // MOVE
+    // =========================
 
-    if (GameSpeedManager.Instance != null)
+    void FixedUpdate()
     {
-        currentSpeed = GameSpeedManager.Instance.GetSpeed(speed);
+        if (rb == null)
+            return;
+
+        float currentSpeed = speed;
+
+        // =========================
+        // Game Speed
+        // =========================
+
+        if (GameSpeedManager.Instance != null)
+        {
+            currentSpeed =
+                GameSpeedManager.Instance.GetSpeed(
+                    speed
+                );
+        }
+
+        // =========================
+        // เคลื่อนที่ไปทางซ้าย
+        // =========================
+
+        rb.MovePosition(
+            rb.position +
+            Vector2.left *
+            currentSpeed *
+            Time.fixedDeltaTime
+        );
+
+        // =========================
+        // หมุน
+        // =========================
+
+        transform.Rotate(
+            0f,
+            0f,
+            rotationSpeed *
+            Time.fixedDeltaTime
+        );
     }
 
-    rb.MovePosition(
-        rb.position + Vector2.left * currentSpeed * Time.fixedDeltaTime
-    );
+    // =========================
+    // COLLISION WITH PLAYER
+    // =========================
 
-    transform.Rotate(
-        0f,
-        0f,
-        rotationSpeed * Time.fixedDeltaTime
-    );
-}
-
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(
+        Collider2D other
+    )
     {
-        Player player = other.GetComponent<Player>();
+        // =========================
+        // เช็กว่าโดน Player หรือไม่
+        // =========================
+
+        Player player =
+            other.GetComponent<Player>();
 
         if (player == null)
             return;
 
-        Item item = GetComponent<Item>();
+        // =========================
+        // หา Item
+        // =========================
 
-        if (item == null || item.itemData == null)
+        Item item =
+            GetComponent<Item>();
+
+        if (
+            item == null ||
+            item.itemData == null
+        )
         {
             Destroy(gameObject);
             return;
         }
+
+        ItemData itemData =
+            item.itemData;
+
+        // =========================
+        // HAZARD
+        // =========================
+
+        if (
+            itemData.itemType ==
+            ItemType.Hazard
+        )
+        {
+            HandleHazard(itemData);
+
+            Destroy(gameObject);
+
+            return;
+        }
+
+        // =========================
+        // INGREDIENT
+        // =========================
+
+        if (
+            itemData.itemType ==
+            ItemType.Ingredient
+        )
+        {
+            HandleIngredient(itemData);
+
+            Destroy(gameObject);
+
+            return;
+        }
+
+        // =========================
+        // ไม่รู้จักประเภท
+        // =========================
+
+        Destroy(gameObject);
+    }
+
+    // =========================
+    // HANDLE HAZARD
+    // =========================
+
+    void HandleHazard(ItemData itemData)
+    {
+        float timePenalty =
+            itemData.timePenalty;
+
+        Debug.Log(
+            "โดนของอันตราย: " +
+            itemData.itemName
+        );
+
+        Debug.Log(
+            "ลดเวลา: -" +
+            timePenalty.ToString("0") +
+            " วินาที"
+        );
+
+        // =========================
+        // หา GameManager
+        // =========================
+
+        GameManager gameManager =
+            FindFirstObjectByType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.DamageTime(
+                timePenalty
+            );
+        }
+        else
+        {
+            Debug.LogWarning(
+                "MoveLeft: " +
+                "หา GameManager ไม่เจอ"
+            );
+        }
+
+        // =========================
+        // แสดง -เวลา
+        // =========================
+
+        if (
+            FloatingTextManager.Instance != null
+        )
+        {
+            FloatingTextManager.Instance.ShowTimePenalty(
+                timePenalty
+            );
+        }
+        else
+        {
+            Debug.LogWarning(
+                "MoveLeft: " +
+                "หา FloatingTextManager ไม่เจอ"
+            );
+        }
+    }
+
+    // =========================
+    // HANDLE INGREDIENT
+    // =========================
+
+    void HandleIngredient(ItemData itemData)
+    {
+        // =========================
+        // หา RecipeManager
+        // =========================
 
         RecipeManager recipeManager =
             FindFirstObjectByType<RecipeManager>();
 
         if (recipeManager == null)
         {
-            Destroy(gameObject);
+            Debug.LogWarning(
+                "MoveLeft: " +
+                "หา RecipeManager ไม่เจอ"
+            );
+
             return;
         }
 
-        // ของอันตราย
-        if (item.itemData.itemType == ItemType.Hazard)
+        // =========================
+        // เก็บวัตถุดิบ
+        // =========================
+
+        bool collected =
+            recipeManager.CollectItem(
+                itemData
+            );
+
+        if (collected)
         {
-            Debug.Log("โดนของอันตราย: " + item.itemData.itemName);
-
-            /*player.TakeDamage(1);*/
-
-            Destroy(gameObject);
-            return;
+            Debug.Log(
+                "เก็บวัตถุดิบ: " +
+                itemData.itemName
+            );
         }
-
-        // วัตถุดิบ
-        recipeManager.CollectItem(item.itemData);
-
-        Destroy(gameObject);
     }
 }

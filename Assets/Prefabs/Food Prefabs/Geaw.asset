@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
   recipeName: Geaw
   recipeIcon: {fileID: -8441566627323160104, guid: 33dca47e221f9a14fbd71511142c0502, type: 3}
+  score: 100
   requiredItems:
   - item: {fileID: 11400000, guid: 39b5845752e73384ead65ac0b393979e, type: 2}
     amount: 1

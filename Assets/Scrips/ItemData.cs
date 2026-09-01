@@ -16,4 +16,7 @@ public class ItemData : ScriptableObject
 
     [Header("ประเภท")]
     public ItemType itemType;
+
+    [Header("เวลาที่หักเมื่อโดน")]
+    public float timePenalty = 0f;
 }

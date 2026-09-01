@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Pan
   icon: {fileID: 7862226992508437267, guid: 732a71be4d6e01844bf4823cb555398f, type: 3}
   itemType: 1
+  timePenalty: 15

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
   recipeName: Salapow
   recipeIcon: {fileID: -7505907695632382721, guid: 16657e166e990ba41aead470c9594c3e, type: 3}
+  score: 50
   requiredItems:
   - item: {fileID: 11400000, guid: 39b5845752e73384ead65ac0b393979e, type: 2}
     amount: 1

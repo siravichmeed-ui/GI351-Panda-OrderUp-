@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -10,6 +9,9 @@ public class RecipeManager : MonoBehaviour
     [Header("เมนูปัจจุบัน")]
     public RecipeData currentRecipe;
 
+    [Header("Game Manager")]
+    public GameManager gameManager;
+
     [Header("ตั้งค่า")]
     public float nextRecipeDelay = 1f;
 
@@ -18,42 +20,102 @@ public class RecipeManager : MonoBehaviour
 
     private bool recipeCompleted = false;
 
+    // =========================
+    // START
+    // =========================
+
     void Awake()
     {
         SelectRandomRecipe();
     }
 
+    // =========================
+    // SELECT RANDOM RECIPE
+    // =========================
+
     void SelectRandomRecipe()
     {
         if (recipes == null || recipes.Length == 0)
         {
-            Debug.LogWarning("ยังไม่มี Recipe");
+            Debug.LogWarning("RecipeManager: ยังไม่มี Recipe");
             return;
         }
 
-        int randomIndex = Random.Range(0, recipes.Length);
+        int randomIndex;
 
-        currentRecipe = recipes[randomIndex];
+        // =========================
+        // ป้องกันสุ่มเมนูเดิม
+        // =========================
+
+        if (recipes.Length > 1 && currentRecipe != null)
+        {
+            do
+            {
+                randomIndex =
+                    Random.Range(0, recipes.Length);
+
+            }
+            while (recipes[randomIndex] == currentRecipe);
+        }
+        else
+        {
+            randomIndex =
+                Random.Range(0, recipes.Length);
+        }
+
+        // =========================
+        // ตั้งค่าเมนูใหม่
+        // =========================
+
+        currentRecipe =
+            recipes[randomIndex];
 
         collectedItems.Clear();
 
         recipeCompleted = false;
 
-        Debug.Log("เมนูใหม่: " + currentRecipe.recipeName);
+        Debug.Log(
+            "เมนูใหม่: " +
+            currentRecipe.recipeName
+        );
 
-        foreach (RecipeIngredient ingredient in currentRecipe.requiredItems)
+        Debug.Log(
+            "คะแนนเมนูนี้: " +
+            currentRecipe.score
+        );
+
+        // =========================
+        // แสดงวัตถุดิบที่ต้องใช้
+        // =========================
+
+        if (currentRecipe.requiredItems != null)
         {
-            if (ingredient == null || ingredient.item == null)
-                continue;
+            foreach (
+                RecipeIngredient ingredient
+                in currentRecipe.requiredItems
+            )
+            {
+                if (
+                    ingredient == null ||
+                    ingredient.item == null
+                )
+                {
+                    continue;
+                }
 
-            Debug.Log(
-                "ต้องใช้: " +
-                ingredient.item.itemName +
-                " x" +
-                ingredient.amount
-            );
+                Debug.Log(
+                    "ต้องใช้: " +
+                    ingredient.item.itemName +
+                    " x" +
+                    ingredient.amount
+                );
+            }
         }
     }
+
+    // =========================
+    // COLLECT ITEM
+    // =========================
 
     public bool CollectItem(ItemData item)
     {
@@ -64,34 +126,61 @@ public class RecipeManager : MonoBehaviour
         if (recipeCompleted)
             return false;
 
-        // Hazard
+        // =========================
+        // HAZARD
+        // =========================
+
         if (item.itemType == ItemType.Hazard)
         {
-            Debug.Log("เป็นของอันตราย: " + item.itemName);
+            Debug.Log(
+                "เป็นของอันตราย: " +
+                item.itemName
+            );
+
             return false;
         }
 
-        // ต้องเป็น Ingredient
+        // =========================
+        // INGREDIENT
+        // =========================
+
         if (item.itemType != ItemType.Ingredient)
         {
             return false;
         }
 
-        // เช็กว่า Item อยู่ในสูตรหรือไม่
+        // =========================
+        // เช็กว่าอยู่ในสูตรหรือไม่
+        // =========================
+
         RecipeIngredient requiredIngredient =
             GetRequiredIngredient(item);
 
         if (requiredIngredient == null)
         {
-            Debug.Log("ไม่ต้องใช้: " + item.itemName);
+            Debug.Log(
+                "ไม่ต้องใช้: " +
+                item.itemName
+            );
+
             return false;
         }
 
+        // =========================
         // จำนวนที่เก็บแล้ว
-        int currentAmount = GetCollectedAmount(item);
+        // =========================
 
+        int currentAmount =
+            GetCollectedAmount(item);
+
+        // =========================
         // เก็บครบแล้ว
-        if (currentAmount >= requiredIngredient.amount)
+        // =========================
+
+        if (
+            currentAmount >=
+            requiredIngredient.amount
+        )
         {
             Debug.Log(
                 item.itemName +
@@ -105,8 +194,12 @@ public class RecipeManager : MonoBehaviour
             return false;
         }
 
+        // =========================
         // เพิ่มจำนวน
-        collectedItems[item] = currentAmount + 1;
+        // =========================
+
+        collectedItems[item] =
+            currentAmount + 1;
 
         Debug.Log(
             "เก็บ " +
@@ -118,13 +211,22 @@ public class RecipeManager : MonoBehaviour
             ")"
         );
 
-        // เช็กว่าครบสูตรหรือยัง
+        // =========================
+        // เช็กสูตร
+        // =========================
+
         CheckComplete();
 
         return true;
     }
 
-    RecipeIngredient GetRequiredIngredient(ItemData item)
+    // =========================
+    // FIND REQUIRED INGREDIENT
+    // =========================
+
+    RecipeIngredient GetRequiredIngredient(
+        ItemData item
+    )
     {
         if (currentRecipe == null)
             return null;
@@ -132,7 +234,10 @@ public class RecipeManager : MonoBehaviour
         if (currentRecipe.requiredItems == null)
             return null;
 
-        foreach (RecipeIngredient ingredient in currentRecipe.requiredItems)
+        foreach (
+            RecipeIngredient ingredient
+            in currentRecipe.requiredItems
+        )
         {
             if (ingredient == null)
                 continue;
@@ -146,23 +251,40 @@ public class RecipeManager : MonoBehaviour
         return null;
     }
 
+    // =========================
+    // CHECK REQUIRED ITEM
+    // =========================
+
     public bool IsRequiredItem(ItemData item)
     {
         return GetRequiredIngredient(item) != null;
     }
+
+    // =========================
+    // GET COLLECTED AMOUNT
+    // =========================
 
     public int GetCollectedAmount(ItemData item)
     {
         if (item == null)
             return 0;
 
-        if (collectedItems.TryGetValue(item, out int amount))
+        if (
+            collectedItems.TryGetValue(
+                item,
+                out int amount
+            )
+        )
         {
             return amount;
         }
 
         return 0;
     }
+
+    // =========================
+    // GET REQUIRED AMOUNT
+    // =========================
 
     public int GetRequiredAmount(ItemData item)
     {
@@ -175,6 +297,10 @@ public class RecipeManager : MonoBehaviour
         return ingredient.amount;
     }
 
+    // =========================
+    // CHECK COMPLETE
+    // =========================
+
     void CheckComplete()
     {
         if (currentRecipe == null)
@@ -183,22 +309,41 @@ public class RecipeManager : MonoBehaviour
         if (currentRecipe.requiredItems == null)
             return;
 
-        // เช็กทุกวัตถุดิบ
-        foreach (RecipeIngredient ingredient in currentRecipe.requiredItems)
+        // =========================
+        // เช็กวัตถุดิบทุกตัว
+        // =========================
+
+        foreach (
+            RecipeIngredient ingredient
+            in currentRecipe.requiredItems
+        )
         {
-            if (ingredient == null || ingredient.item == null)
+            if (
+                ingredient == null ||
+                ingredient.item == null
+            )
+            {
                 continue;
+            }
 
             int collectedAmount =
-                GetCollectedAmount(ingredient.item);
+                GetCollectedAmount(
+                    ingredient.item
+                );
 
-            if (collectedAmount < ingredient.amount)
+            if (
+                collectedAmount <
+                ingredient.amount
+            )
             {
                 return;
             }
         }
 
-        // ทำสำเร็จแล้ว
+        // =========================
+        // ทำอาหารสำเร็จ
+        // =========================
+
         recipeCompleted = true;
 
         Debug.Log(
@@ -207,13 +352,51 @@ public class RecipeManager : MonoBehaviour
             " สำเร็จ!"
         );
 
-        // รอแล้วสุ่มเมนูใหม่
-        Invoke(nameof(SelectRandomRecipe), nextRecipeDelay);
+        // =========================
+        // เพิ่มคะแนน
+        // =========================
+
+        if (gameManager != null)
+        {
+            gameManager.AddScore(
+                currentRecipe.score
+            );
+        }
+        else
+        {
+            Debug.LogWarning(
+                "RecipeManager: " +
+                "ยังไม่ได้ใส่ GameManager"
+            );
+        }
+
+        // =========================
+        // แสดง +คะแนน
+        // =========================
+
+        if (FloatingTextManager.Instance != null)
+        {
+            FloatingTextManager.Instance.ShowScore(
+                currentRecipe.score
+            );
+        }
+
+        // =========================
+        // สุ่มเมนูใหม่
+        // =========================
+
+        Invoke(
+            nameof(SelectRandomRecipe),
+            nextRecipeDelay
+        );
     }
+
+    // =========================
+    // GET CURRENT RECIPE
+    // =========================
 
     public RecipeData GetCurrentRecipe()
     {
         return currentRecipe;
     }
 }
-

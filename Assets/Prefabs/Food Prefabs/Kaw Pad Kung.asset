@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
   recipeName: Kaw Pad Kung
   recipeIcon: {fileID: -3161485955524117438, guid: 98b9c7767192c494d8ae03b0a1d3d9e4, type: 3}
+  score: 300
   requiredItems:
   - item: {fileID: 11400000, guid: 23f41a3f8f9755840a9003f604486802, type: 2}
     amount: 1

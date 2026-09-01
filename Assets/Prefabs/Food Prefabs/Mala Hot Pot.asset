@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
   recipeName: Mala Hot Pot
   recipeIcon: {fileID: -4135920974577956680, guid: f99ca1ada57e3f54184b135e4461f218, type: 3}
+  score: 500
   requiredItems:
   - item: {fileID: 11400000, guid: 3488d7cbdba88ca4ea1cc83100d0884c, type: 2}
     amount: 1

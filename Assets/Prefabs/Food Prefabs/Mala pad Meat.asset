@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
   recipeName: Mala pad Meat
   recipeIcon: {fileID: 7462357171129780843, guid: 3bb0540d481a210469c177315a1f6695, type: 3}
+  score: 200
   requiredItems:
   - item: {fileID: 11400000, guid: 1eb9ddc716a02f245abfebd178801aa8, type: 2}
     amount: 1

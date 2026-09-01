@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43b03372aeedfe54d884bce3d8080fb6, type: 3}
-  m_Name: Knife
+  m_Name: Salmon
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Knife
-  icon: {fileID: -7419191554114643056, guid: bd70ac4d8c7bfa44bbd17ada17b7c517, type: 3}
-  itemType: 1
-  timePenalty: 60
+  itemName: Salmon
+  icon: {fileID: -6717798376109501544, guid: cb3ba8b47cb2e1644926158c4fccae70, type: 3}
+  itemType: 0
+  timePenalty: 0

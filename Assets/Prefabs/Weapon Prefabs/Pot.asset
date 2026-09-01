@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Pot
   icon: {fileID: -8218331976666599638, guid: c0150d83197d3224cba48f94861b664e, type: 3}
   itemType: 1
+  timePenalty: 30
