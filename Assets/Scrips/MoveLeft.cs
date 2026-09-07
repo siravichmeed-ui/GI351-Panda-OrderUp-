@@ -5,80 +5,118 @@ public class MoveLeft : MonoBehaviour
     [Header("การเคลื่อนที่")]
     public float speed = 5f;
 
-    [Header("การหมุน")]
-    public float rotationSpeed = 30f;
+    [Header("การลอยแบบฟองสบู่")]
+    public float floatHeight = 0.3f;
+    public float floatSpeed = 2f;
 
-    [Header("เสียง")]
+    [Header("เสียงเก็บ Item")]
     public AudioClip pickupSound;
 
     private Rigidbody2D rb;
 
-    // =========================
+    private Vector2 startPosition;
+
+    private float randomOffset;
+
+    private bool collected = false;
+
+    // =====================================================
     // START
-    // =========================
+    // =====================================================
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            startPosition = rb.position;
+        }
+        else
+        {
+            startPosition = transform.position;
+        }
+
+        // ทำให้แต่ละ Item ลอยคนละจังหวะ
+        randomOffset =
+            Random.Range(0f, 100f);
     }
 
-    // =========================
+    // =====================================================
     // MOVE
-    // =========================
+    // =====================================================
 
     void FixedUpdate()
     {
         if (rb == null)
             return;
 
-        float currentSpeed = speed;
+        if (collected)
+            return;
 
-        // =========================
-        // Game Speed
-        // =========================
+        // =================================================
+        // ความเร็ว
+        // =================================================
+
+        float currentSpeed = speed;
 
         if (GameSpeedManager.Instance != null)
         {
             currentSpeed =
-                GameSpeedManager.Instance.GetSpeed(
-                    speed
-                );
+                GameSpeedManager.Instance.GetSpeed(speed);
         }
 
-        // =========================
-        // เคลื่อนที่ไปทางซ้าย
-        // =========================
+        // =================================================
+        // ลอยขึ้นลง
+        // =================================================
+
+        float time =
+            Time.time + randomOffset;
+
+        float floatOffset =
+            Mathf.Sin(
+                time * floatSpeed
+            ) * floatHeight;
+
+        // =================================================
+        // ตำแหน่งใหม่
+        // =================================================
+
+        float newX =
+            rb.position.x -
+            currentSpeed *
+            Time.fixedDeltaTime;
+
+        float newY =
+            startPosition.y +
+            floatOffset;
+
+        // =================================================
+        // เคลื่อนที่
+        // =================================================
 
         rb.MovePosition(
-            rb.position +
-            Vector2.left *
-            currentSpeed *
-            Time.fixedDeltaTime
-        );
-
-        // =========================
-        // หมุน
-        // =========================
-
-        transform.Rotate(
-            0f,
-            0f,
-            rotationSpeed *
-            Time.fixedDeltaTime
+            new Vector2(
+                newX,
+                newY
+            )
         );
     }
 
-    // =========================
-    // COLLISION WITH PLAYER
-    // =========================
+    // =====================================================
+    // PLAYER COLLECT ITEM
+    // =====================================================
 
     private void OnTriggerEnter2D(
         Collider2D other
     )
     {
-        // =========================
-        // เช็กว่าโดน Player หรือไม่
-        // =========================
+        if (collected)
+            return;
+
+        // =================================================
+        // เช็ก Player
+        // =================================================
 
         Player player =
             other.GetComponent<Player>();
@@ -86,9 +124,9 @@ public class MoveLeft : MonoBehaviour
         if (player == null)
             return;
 
-        // =========================
+        // =================================================
         // หา Item
-        // =========================
+        // =================================================
 
         Item item =
             GetComponent<Item>();
@@ -102,155 +140,143 @@ public class MoveLeft : MonoBehaviour
             return;
         }
 
+        collected = true;
+
+        // =================================================
+        // ปิด Collider
+        // =================================================
+
+        Collider2D col =
+            GetComponent<Collider2D>();
+
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // =================================================
+        // หยุด Item
+        // =================================================
+
+        if (rb != null)
+        {
+            rb.linearVelocity =
+                Vector2.zero;
+        }
+
+        // =================================================
+        // ข้อมูล Item
+        // =================================================
+
         ItemData itemData =
             item.itemData;
 
-        // =========================
-        // HAZARD
-        // =========================
-
-        if (
-            itemData.itemType ==
-            ItemType.Hazard
-        )
-        {
-            HandleHazard(itemData);
-
-            Destroy(gameObject);
-
-            return;
-        }
-
-        // =========================
-        // INGREDIENT
-        // =========================
-
-        if (itemData.itemType == ItemType.Ingredient)
-        {   // เล่นเสียงทันทีที่เก็บ
-            if (pickupSound != null)
-            {
-                AudioSource.PlayClipAtPoint(
-                    pickupSound,
-                    transform.position,
-                    1f
-                );
-            }
-        
-            HandleIngredient(itemData);
-
-            Destroy(gameObject);
-
-            return;
-        }
-
-        // =========================
-        // ไม่รู้จักประเภท
-        // =========================
-
-        Destroy(gameObject);
-    }
-
-    // =========================
-    // HANDLE HAZARD
-    // =========================
-
-    void HandleHazard(ItemData itemData)
-    {
-        float timePenalty =
-            itemData.timePenalty;
-
-        Debug.Log(
-            "โดนของอันตราย: " +
-            itemData.itemName
-        );
-
-        Debug.Log(
-            "ลดเวลา: -" +
-            timePenalty.ToString("0") +
-            " วินาที"
-        );
-
-        // =========================
-        // หา GameManager
-        // =========================
-
-        GameManager gameManager =
-            FindFirstObjectByType<GameManager>();
-
-        if (gameManager != null)
-        {
-            gameManager.DamageTime(
-                timePenalty
-            );
-        }
-        else
-        {
-            Debug.LogWarning(
-                "MoveLeft: " +
-                "หา GameManager ไม่เจอ"
-            );
-        }
-
-        // =========================
-        // แสดง -เวลา
-        // =========================
-
-        if (
-            FloatingTextManager.Instance != null
-        )
-        {
-            FloatingTextManager.Instance.ShowTimePenalty(
-                timePenalty
-            );
-        }
-        else
-        {
-            Debug.LogWarning(
-                "MoveLeft: " +
-                "หา FloatingTextManager ไม่เจอ"
-            );
-        }
-    }
-
-    // =========================
-    // HANDLE INGREDIENT
-    // =========================
-
-    void HandleIngredient(ItemData itemData)
-    {
-        // =========================
-        // หา RecipeManager
-        // =========================
+        // =================================================
+        // หา Manager
+        // =================================================
 
         RecipeManager recipeManager =
             FindFirstObjectByType<RecipeManager>();
 
-        if (recipeManager == null)
+        GameManager gameManager =
+            FindFirstObjectByType<GameManager>();
+
+        // =================================================
+        // เช็กว่าเป็นของใน Menu หรือไม่
+        // =================================================
+
+        bool isRequired =
+            recipeManager != null &&
+            recipeManager.IsRequiredItem(itemData);
+
+        // =================================================
+        // ของถูกต้องตาม Menu
+        // =================================================
+
+        if (isRequired)
         {
-            Debug.LogWarning(
-                "MoveLeft: " +
-                "หา RecipeManager ไม่เจอ"
-            );
+            // เล่นเสียง
+            PlayPickupSound();
 
-            return;
-        }
-
-        // =========================
-        // เก็บวัตถุดิบ
-        // =========================
-
-        bool collected =
+            // ส่งให้ RecipeManager
             recipeManager.CollectItem(
                 itemData
             );
 
-        if (collected)
+            // เล่น Animation ฟองแตก
+            PlayBubbleBreak();
+
+            return;
+        }
+
+        // =================================================
+        // ของไม่ใช่ใน Menu
+        // =================================================
+
+        if (gameManager != null)
         {
-            Debug.Log(
-                "เก็บวัตถุดิบ: " +
-                itemData.itemName
+            gameManager.AddFullness(
+                itemData.fullnessAmount
             );
-            
+        }
+
+        Debug.Log(
+            "เก็บของไม่ตรง Menu: " +
+            itemData.itemName +
+            " +" +
+            itemData.fullnessAmount +
+            " Fullness"
+        );
+
+        // เล่นเสียง
+        PlayPickupSound();
+
+        // เล่น Animation ฟองแตก
+        PlayBubbleBreak();
+    }
+
+    // =====================================================
+    // PICKUP SOUND
+    // =====================================================
+
+    void PlayPickupSound()
+    {
+        if (pickupSound == null)
+            return;
+
+        AudioSource.PlayClipAtPoint(
+            pickupSound,
+            transform.position,
+            1f
+        );
+    }
+
+    // =====================================================
+    // BUBBLE BREAK
+    // =====================================================
+
+    void PlayBubbleBreak()
+    {
+        Animator bubbleAnimator =
+            GetComponentInChildren<Animator>();
+
+        if (bubbleAnimator != null)
+        {
+            bubbleAnimator.SetTrigger(
+                "Break"
+            );
+
+            // รอ Animation ฟองแตก
+            Destroy(
+                gameObject,
+                0.3f
+            );
+        }
+        else
+        {
+            // ถ้าไม่มี Animator
+            // ให้ลบทันที
+            Destroy(gameObject);
         }
     }
 }
