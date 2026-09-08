@@ -112,8 +112,6 @@ MonoBehaviour:
   speed: 5
   floatHeight: 0.4
   floatSpeed: 2
-  swayAmount: 0.15
-  swaySpeed: 1.5
   pickupSound: {fileID: 8300000, guid: f14516e2116ad4543b0eac62cda8a62d, type: 3}
 --- !u!50 &4700540571483137784
 Rigidbody2D:

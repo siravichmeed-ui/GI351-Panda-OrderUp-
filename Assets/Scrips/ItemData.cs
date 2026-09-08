@@ -13,14 +13,12 @@ public class ItemData : ScriptableObject
     public string itemName;
     public Sprite icon;
 
+
     [Header("ประเภท")]
     public ItemType itemType;
 
-    [Header("ค่าความอิ่ม")]
-    [Tooltip("ถ้าเป็นของที่ไม่ใช่ใน Menu จะเพิ่มความอิ่มเท่านี้")]
-    public float fullnessAmount = 10f;
 
-    [Header("ระบบเก่า - ไม่ใช้แล้ว")]
-    [HideInInspector]
-    public float timePenalty = 0f;
+    [Header("ค่าพลังชีวิต")]
+    [Tooltip("จำนวนเลือดที่จะเพิ่ม")]
+    public float healthAmount = 10f;
 }

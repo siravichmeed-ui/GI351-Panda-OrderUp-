@@ -4,8 +4,13 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
+    // =====================================================
+    // GAME MANAGER
+    // =====================================================
+
     [Header("Game Manager")]
     public GameManager gameManager;
+
 
     // =====================================================
     // SCORE
@@ -16,28 +21,21 @@ public class GameUI : MonoBehaviour
 
 
     // =====================================================
-    // FULLNESS
+    // HEALTH
     // =====================================================
 
-    [Header("Fullness UI")]
-    public Image fullnessBar;
-    public TMP_Text fullnessText;
+    [Header("Health UI")]
+    public Image healthBar;
+    public TMP_Text healthText;
 
 
     // =====================================================
-    // FULLNESS BAR SHAKE
+    // HEALTH BAR
     // =====================================================
 
-    [Header("Fullness Bar Shake")]
-    public RectTransform fullnessBarTransform;
+    [Header("Health Bar")]
 
-    [Tooltip("ความแรงของการสั่น")]
-    public float shakeAmount = 4f;
-
-    [Tooltip("ความเร็วของการสั่น")]
-    public float shakeSpeed = 25f;
-
-    private Vector2 originalBarPosition;
+    public RectTransform healthBarTransform;
 
 
     // =====================================================
@@ -46,10 +44,10 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-        if (fullnessBarTransform != null)
+        if (healthBarTransform != null)
         {
-            originalBarPosition =
-                fullnessBarTransform.anchoredPosition;
+            // จำตำแหน่งเดิม
+            // เผื่อใช้ในอนาคต
         }
     }
 
@@ -64,21 +62,7 @@ public class GameUI : MonoBehaviour
             return;
 
         UpdateScore();
-        UpdateFullness();
-
-        // =================================================
-        // เช็กว่าความอิ่มเกินหลอดหรือไม่
-        // =================================================
-
-        if (gameManager.GetFullness() >
-            gameManager.maxFullness)
-        {
-            ShakeFullnessBar();
-        }
-        else
-        {
-            ResetFullnessBar();
-        }
+        UpdateHealth();
     }
 
 
@@ -98,101 +82,65 @@ public class GameUI : MonoBehaviour
 
 
     // =====================================================
-    // UPDATE FULLNESS
+    // UPDATE HEALTH
     // =====================================================
 
-    void UpdateFullness()
+    void UpdateHealth()
     {
-        if (fullnessBar == null)
+        if (healthBar == null)
             return;
 
-        float fullness =
-            gameManager.GetFullness();
+        float health =
+            gameManager.GetHealth();
 
-        float maxFullness =
-            gameManager.maxFullness;
+        float maxHealth =
+            gameManager.maxHealth;
+
 
         // =================================================
-        // ป้องกัน maxFullness เป็น 0
+        // ป้องกัน maxHealth เป็น 0
         // =================================================
 
-        if (maxFullness <= 0f)
+        if (maxHealth <= 0f)
         {
-            fullnessBar.fillAmount = 0f;
+            healthBar.fillAmount = 0f;
             return;
         }
 
+
         // =================================================
-        // คำนวณเปอร์เซ็นต์ของหลอด
+        // คำนวณเปอร์เซ็นต์
         // =================================================
 
         float fill =
-            fullness / maxFullness;
+            health / maxHealth;
 
-        // จำกัดให้อยู่ 0 - 1
+
+        // =================================================
+        // จำกัดหลอด 0 - 100%
+        // =================================================
+
         fill =
             Mathf.Clamp01(fill);
+
 
         // =================================================
         // อัปเดตหลอด
         // =================================================
 
-        fullnessBar.fillAmount = fill;
+        healthBar.fillAmount = fill;
+
 
         // =================================================
-        // อัปเดตตัวเลข
+        // ตัวเลข
         // =================================================
 
-        if (fullnessText != null)
+        if (healthText != null)
         {
-            fullnessText.text =
-                Mathf.RoundToInt(fullness) +
+            healthText.text =
+                Mathf.RoundToInt(health) +
                 " / " +
-                Mathf.RoundToInt(maxFullness);
+                Mathf.RoundToInt(maxHealth);
         }
-    }
-
-
-    // =====================================================
-    // SHAKE FULLNESS BAR
-    // =====================================================
-
-    void ShakeFullnessBar()
-    {
-        if (fullnessBarTransform == null)
-            return;
-
-        // ใช้ UnscaledTime
-        // เพราะตอน Game Over Time.timeScale จะเป็น 0
-        float time =
-            Time.unscaledTime;
-
-        float x =
-            Mathf.Sin(
-                time * shakeSpeed
-            ) * shakeAmount;
-
-        float y =
-            Mathf.Cos(
-                time * shakeSpeed * 1.3f
-            ) * shakeAmount;
-
-        fullnessBarTransform.anchoredPosition =
-            originalBarPosition +
-            new Vector2(x, y);
-    }
-
-
-    // =====================================================
-    // RESET FULLNESS BAR
-    // =====================================================
-
-    void ResetFullnessBar()
-    {
-        if (fullnessBarTransform == null)
-            return;
-
-        fullnessBarTransform.anchoredPosition =
-            originalBarPosition;
     }
 }
